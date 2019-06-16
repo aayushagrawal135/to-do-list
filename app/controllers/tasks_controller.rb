@@ -5,6 +5,8 @@ class TasksController < ApplicationController
 
   def show
     @task = Task.find(params[:id])
+  rescue ActiveRecord::RecordNotFound => e
+    render json: e.message
   end
 
   def new
@@ -12,12 +14,17 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.create(task_params)
+    @task = Task.new(task_params)
+    @task.save!
     redirect_to({ action: "show", id: @task.id })
+  rescue ActiveRecord::RecordInvalid => e
+    render json: e.message
   end
 
   def edit
     @task  = Task.find(params[:id])
+  rescue ActiveRecord::RecordNotFound => e
+    render json: e.message
   end
 
   def update
