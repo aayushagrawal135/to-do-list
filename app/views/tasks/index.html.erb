@@ -1,0 +1,15 @@
+<h1>Index Page!</h1>
+
+<%= link_to "New Task Item", new_task_path %>
+
+<ul>
+  <% @tasks.each do |task| %>
+    <% path = "tasks/#{task.id}" %>
+    <li><%= link_to(task.title, path) %></li>
+
+    <% edit_path = "/tasks/#{task.id}/edit" %>
+    <%= link_to("Edit", edit_path) %>
+
+    <%= link_to "delete", task, method: :delete, data: { confirm: "You sure?" }%>
+  <% end %>
+</ul>
